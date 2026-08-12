@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Inventory Management System</title>
+
+    <link rel="stylesheet" href="style.css?v=3">
+
+</head>
+
+
+<body>
+
+
+<!-- ============================= -->
+<!-- LOGIN PAGE -->
+<!-- ============================= -->
+
+<div id="login-page" class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-header">
+
+            <h1>Inventory Management</h1>
+
+            <p>
+                Login to your account
+            </p>
+
+        </div>
+
+
+        <form id="login-form">
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter email"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ROLE -->
+
+            <div class="form-group">
+
+                <label for="role">
+                    Role
+                </label>
+
+                <select id="role" required>
+
+                    <option value="">
+                        Select Role
+                    </option>
+
+                    <option value="Admin">
+                        Admin
+                    </option>
+
+                    <option value="Inventory Manager">
+                        Inventory Manager
+                    </option>
+
+                    <option value="Sales Executive">
+                        Sales Executive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+
+            <p
+                id="login-message"
+                class="error-message"
+            ></p>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- ============================= -->
+<!-- APPLICATION -->
+<!-- ============================= -->
+
+<div
+    id="app"
+    class="app hidden"
+>
+
+
+    <!-- ============================= -->
+    <!-- SIDEBAR -->
+    <!-- ============================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>Inventory</h2>
+
+            <span>Management System</span>
+
+        </div>
+
+
+        <nav>
+
+
+            <button
+                class="nav-item active"
+                onclick="showSection('dashboard-section')"
+            >
+                📊 Dashboard
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showSection('products-section')"
+            >
+                📦 Products
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showSection('categories-section')"
+            >
+                🗂 Categories
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showSection('suppliers-section')"
+            >
+                🚚 Suppliers
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showSection('purchases-section')"
+            >
+                🛒 Purchases
+            </button>
+
+
+            <button
+                class="nav-item"
+                onclick="showSection('sales-section')"
+            >
+                💰 Sales
+            </button>
+
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="logout-button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ============================= -->
+    <!-- MAIN -->
+    <!-- ============================= -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h2 id="page-title">
+                    Dashboard
+                </h2>
+
+                <p>
+                    Inventory Management System
+                </p>
+
+            </div>
+
+
+            <div class="user-info">
+
+                <span id="user-name">
+                    Welcome
+                </span>
+
+                <span
+                    id="user-role"
+                    class="role-badge"
+                >
+                    Role
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ============================= -->
+        <!-- DASHBOARD -->
+        <!-- ============================= -->
+
+        <section
+            id="dashboard-section"
+            class="section"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Dashboard</h1>
+
+                    <p>
+                        Overview of your inventory
+                    </p>
+
+                </div>
+
+                <button
+                    onclick="loadDashboard()"
+                    class="refresh-button"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <!-- STAT CARDS -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Total Products
+                        </p>
+
+                        <h2 id="product-count">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🗂
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Categories
+                        </p>
+
+                        <h2 id="category-count">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🚚
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Suppliers
+                        </p>
+
+                        <h2 id="supplier-count">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Total Sales
+                        </p>
+
+                        <h2 id="sales-count">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- LOW STOCK -->
+
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        Low Stock Products
+                    </h2>
+
+                    <button
+                        onclick="showSection('products-section')"
+                    >
+                        View Products
+                    </button>
+
+                </div>
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>SKU</th>
+
+                            <th>Price</th>
+
+                            <th>Quantity</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="low-stock-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- PRODUCTS -->
+        <!-- ============================= -->
+
+        <section
+            id="products-section"
+            class="section hidden"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Products</h1>
+
+                    <p>
+                        Manage inventory products
+                    </p>
+
+                </div>
+
+
+                <div class="section-actions">
+
+                    <button
+                        id="add-product-btn"
+                        class="add-button"
+                        onclick="openProductForm()"
+                    >
+                        + Add Product
+                    </button>
+
+                    <button
+                        onclick="loadProducts()"
+                        class="refresh-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>SKU</th>
+
+                            <th>Price</th>
+
+                            <th>Quantity</th>
+
+                            <th>Category</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="products-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- CATEGORIES -->
+        <!-- ============================= -->
+
+        <section
+            id="categories-section"
+            class="section hidden"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Categories</h1>
+
+                    <p>
+                        Product categories
+                    </p>
+
+                </div>
+
+
+                <div class="section-actions">
+
+                    <button
+                        id="add-category-btn"
+                        class="add-button"
+                        onclick="openCategoryForm()"
+                    >
+                        + Add Category
+                    </button>
+
+                    <button
+                        onclick="loadCategories()"
+                        class="refresh-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Description</th>
+
+                            <th>Created</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="categories-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- SUPPLIERS -->
+        <!-- ============================= -->
+
+        <section
+            id="suppliers-section"
+            class="section hidden"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Suppliers</h1>
+
+                    <p>
+                        Manage suppliers
+                    </p>
+
+                </div>
+
+
+                <div class="section-actions">
+
+                    <button
+                        id="add-supplier-btn"
+                        class="add-button"
+                        onclick="openSupplierForm()"
+                    >
+                        + Add Supplier
+                    </button>
+
+                    <button
+                        onclick="loadSuppliers()"
+                        class="refresh-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Company</th>
+
+                            <th>Email</th>
+
+                            <th>Phone</th>
+
+                            <th>Address</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="suppliers-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- PURCHASES -->
+        <!-- ============================= -->
+
+        <section
+            id="purchases-section"
+            class="section hidden"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Purchases</h1>
+
+                    <p>
+                        Purchase history
+                    </p>
+
+                </div>
+
+
+                <div class="section-actions">
+
+                    <button
+                        id="add-purchase-btn"
+                        class="add-button"
+                        onclick="openPurchaseForm()"
+                    >
+                        + Add Purchase
+                    </button>
+
+                    <button
+                        onclick="loadPurchases()"
+                        class="refresh-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Invoice</th>
+
+                            <th>Supplier</th>
+
+                            <th>Date</th>
+
+                            <th>Total</th>
+
+                            <th>Status</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="purchases-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- SALES -->
+        <!-- ============================= -->
+
+        <section
+            id="sales-section"
+            class="section hidden"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <h1>Sales</h1>
+
+                    <p>
+                        Sales history
+                    </p>
+
+                </div>
+
+
+                <div class="section-actions">
+
+                    <button
+                        id="add-sale-btn"
+                        class="add-button"
+                        onclick="openSaleForm()"
+                    >
+                        + Add Sale
+                    </button>
+
+                    <button
+                        onclick="loadSales()"
+                        class="refresh-button"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Invoice</th>
+
+                            <th>Customer</th>
+
+                            <th>Date</th>
+
+                            <th>Total</th>
+
+                            <th>Status</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="sales-table">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- MODAL -->
+<!-- ============================= -->
+
+<div
+    id="modal"
+    class="modal hidden"
+>
+
+    <div
+        class="modal-backdrop"
+        onclick="closeModal()"
+    ></div>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h3 id="modal-title">
+                Add
+            </h3>
+
+            <button
+                class="modal-close"
+                onclick="closeModal()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+        <form id="modal-form">
+
+            <div
+                id="modal-body"
+                class="modal-body"
+            ></div>
+
+            <p
+                id="modal-error"
+                class="error-message"
+            ></p>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    Save
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="app.js?v=4"></script>
+
+</body>
+
+</html>
