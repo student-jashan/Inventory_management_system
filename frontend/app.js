@@ -1,5 +1,5 @@
-const API_URL = "http://127.0.0.1:8000";
-
+// const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://inventory-management-naki.onrender.com";
 /* =========================
    GLOBAL VARIABLES
 ========================= */
@@ -317,6 +317,147 @@ document
 
             console.error(
                 "Login error:",
+                error
+            );
+
+            message.textContent =
+                "Cannot connect to FastAPI server.";
+
+        }
+
+    });
+
+
+/* =========================
+   PAGE SWITCHING (LOGIN / REGISTER)
+========================= */
+
+function showRegisterPage() {
+
+    document
+        .getElementById("login-page")
+        .classList.add("hidden");
+
+    document
+        .getElementById("register-page")
+        .classList.remove("hidden");
+
+}
+
+function showLoginPage() {
+
+    document
+        .getElementById("register-page")
+        .classList.add("hidden");
+
+    document
+        .getElementById("login-page")
+        .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   REGISTER
+========================= */
+
+document
+    .getElementById("register-form")
+    .addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        const fullName =
+            document.getElementById("reg-fullname").value.trim();
+
+        const email =
+            document.getElementById("reg-email").value.trim();
+
+        const password =
+            document.getElementById("reg-password").value;
+
+        const selectedRole =
+            document.getElementById("reg-role").value;
+
+        const message =
+            document.getElementById("register-message");
+
+        message.textContent = "";
+
+        message.classList.remove(
+            "success-message"
+        );
+
+        message.classList.add(
+            "error-message"
+        );
+
+
+        if (!selectedRole) {
+            message.textContent = "Please select a role.";
+            return;
+        }
+
+
+        try {
+
+            const response = await fetch(
+                `${API_URL}/auth/register`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        email: email,
+                        password: password,
+                        role: selectedRole
+                    })
+                }
+            );
+
+
+            const data = await response.json();
+
+
+            if (!response.ok) {
+
+                message.textContent =
+                    data.detail || "Registration failed.";
+
+                return;
+            }
+
+
+            message.classList.remove(
+                "error-message"
+            );
+
+            message.classList.add(
+                "success-message"
+            );
+
+            message.textContent =
+                "Account created successfully! Please login.";
+
+            document
+                .getElementById("register-form")
+                .reset();
+
+
+            setTimeout(
+                showLoginPage,
+                1500
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Register error:",
                 error
             );
 
